@@ -1,0 +1,27 @@
+{
+  "name": "order-fetcher",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mingruimingrui/order-fetcher.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mingruimingrui/order-fetcher/issues"
+  },
+  "homepage": "https://github.com/mingruimingrui/order-fetcher#readme",
+  "dependencies": {
+    "fetch": "^1.1.0",
+    "gdax": "^0.4.2",
+    "jsonfile": "^4.0.0",
+    "mkdirp": "^0.5.1",
+    "promised-exec": "^1.0.1"
+  }
+}
