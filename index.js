@@ -28,7 +28,7 @@ function myFun(ext, i) {
 let cur_time = Date.now();
 cur_time = cur_time - cur_time % 1000;
 let today = new Date(cur_time);
-let cur_date = today.getDate();
+let cur_date = today.getUTCDate();
 let ext = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate() + '/';
 mkdirp('data/BTC/' + ext)
 mkdirp('data/LTC/' + ext)
@@ -43,7 +43,7 @@ setInterval(() => {
   cur_time = cur_time - cur_time % 1000;
   today = new Date(cur_time);
   // today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate()
-  if (today.getDate() != cur_date) {
+  if (today.getUTCDate() != cur_date) {
     ext = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate() + '/';
     mkdirp('data/BTC/' + ext)
     mkdirp('data/LTC/' + ext)
@@ -53,4 +53,4 @@ setInterval(() => {
   for (let i=0; i<3; i++) {
     myFun(file_name[i] + '/' + ext + cur_time, i);
   }
-}, 10000)
+}, 1000)
