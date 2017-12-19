@@ -14,9 +14,11 @@ const file_name = ['BTC', 'LTC', 'ETH'];
 
 function myFun(ext, i) {
   fetchUrl(order_url[i], (err, res, data) => {
-    const JSON_object = JSON.parse(data.toString());
-    const file = 'data/' + ext + '-' + file_name[i] + '.json';
-    jsonfile.writeFile(file, JSON_object)
+    if (!err) {
+      const JSON_object = JSON.parse(data.toString());
+      const file = 'data/' + ext + '-' + file_name[i] + '.json';
+      jsonfile.writeFile(file, JSON_object)
+    }
     // exec('gsutil cp ' + file + ' gs://mingrui-bucket/bitcoin-book/' + file).then((res) => {
     //   console.log(res)
     //   exec('rm ' + file)
