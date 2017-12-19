@@ -1,3 +1,4 @@
+require('daemon')();
 const fetchUrl = require('fetch').fetchUrl;
 const jsonfile = require('jsonfile');
 const exec = require('promised-exec');

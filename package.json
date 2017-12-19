@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/mingruimingrui/order-fetcher#readme",
   "dependencies": {
+    "daemon": "^1.1.0",
     "fetch": "^1.1.0",
     "gdax": "^0.4.2",
     "jsonfile": "^4.0.0",
