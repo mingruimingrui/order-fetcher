@@ -1,8 +1,9 @@
-require('daemon')();
+// require('daemon')();
 const fetchUrl = require('fetch').fetchUrl;
 const jsonfile = require('jsonfile');
 const exec = require('promised-exec');
 const mkdirp = require('mkdirp');
+const fs = require('fs');
 
 const order_url = [
   'https://api.gdax.com/products/BTC-USD/book?level=2',
@@ -10,6 +11,7 @@ const order_url = [
   'https://api.gdax.com/products/ETH-USD/book?level=2'
 ];
 
+const log_file = 'logs/log.txt'
 const file_name = ['BTC', 'LTC', 'ETH'];
 
 function myFun(ext, i) {
@@ -20,9 +22,8 @@ function myFun(ext, i) {
       const file = 'data/' + ext + '-' + file_name[i] + '.json';
       jsonfile.writeFile(file, JSON_object);
     });
-    console.log('success');
   } catch(e) {
-    console.log(e);
+    fs.appendFile(log_file, 'failed to save at ' + ext + '\n');
   }
 
     // exec('gsutil cp ' + file + ' gs://mingrui-bucket/bitcoin-book/' + file).then((res) => {
@@ -31,7 +32,7 @@ function myFun(ext, i) {
     // })
     // exec('gsutil cp ' + file + ' gs://mingrui-bucket/bitcoin-book/' + file)
     // exec('rm ' + file)
-  
+
 }
 
 let cur_time = Date.now();
@@ -63,4 +64,3 @@ setInterval(() => {
     myFun(ext + file_name[i] + '/' + cur_time, i);
   }
 }, 3000)
-
