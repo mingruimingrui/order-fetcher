@@ -13,19 +13,25 @@ const order_url = [
 const file_name = ['BTC', 'LTC', 'ETH'];
 
 function myFun(ext, i) {
-  fetchUrl(order_url[i], (err, res, data) => {
-    if (!err) {
+
+  try{
+    fetchUrl(order_url[i], (err, res, data) => {
       const JSON_object = JSON.parse(data.toString());
       const file = 'data/' + ext + '-' + file_name[i] + '.json';
-      jsonfile.writeFile(file, JSON_object)
-    }
+      jsonfile.writeFile(file, JSON_object);
+    });
+    console.log('success');
+  } catch(e) {
+    console.log(e);
+  }
+
     // exec('gsutil cp ' + file + ' gs://mingrui-bucket/bitcoin-book/' + file).then((res) => {
     //   console.log(res)
     //   exec('rm ' + file)
     // })
     // exec('gsutil cp ' + file + ' gs://mingrui-bucket/bitcoin-book/' + file)
     // exec('rm ' + file)
-  })
+  
 }
 
 let cur_time = Date.now();
@@ -33,9 +39,9 @@ cur_time = cur_time - cur_time % 1000;
 let today = new Date(cur_time);
 let cur_date = today.getUTCDate();
 let ext = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate() + '/';
-mkdirp('data/BTC/' + ext)
-mkdirp('data/LTC/' + ext)
-mkdirp('data/ETH/' + ext)
+mkdirp('data/' + ext + 'BTC/')
+mkdirp('data/' + ext + 'LTC/')
+mkdirp('data/' + ext + 'ETH/')
 
 for (let i=0; i<3; i++) {
   myFun(file_name[i] + '/' + ext + cur_time, i);
@@ -48,12 +54,13 @@ setInterval(() => {
   // today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate()
   if (today.getUTCDate() != cur_date) {
     ext = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate() + '/';
-    mkdirp('data/BTC/' + ext)
-    mkdirp('data/LTC/' + ext)
-    mkdirp('data/ETH/' + ext)
+    mkdirp('data/' + ext + 'BTC/')
+    mkdirp('data/' + ext + 'LTC/')
+    mkdirp('data/' + ext + 'ETH/')
   }
 
   for (let i=0; i<3; i++) {
-    myFun(file_name[i] + '/' + ext + cur_time, i);
+    myFun(ext + file_name[i] + '/' + cur_time, i);
   }
-}, 1000)
+}, 3000)
+
