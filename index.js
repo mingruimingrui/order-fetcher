@@ -52,8 +52,9 @@ setInterval(() => {
   cur_time = Date.now();
   cur_time = cur_time - cur_time % 1000;
   today = new Date(cur_time);
-  // today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate()
   if (today.getUTCDate() != cur_date) {
+    cur_date = today.getUTCDate()
+    
     ext = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate() + '/';
     mkdirp('data/' + ext + 'BTC/')
     mkdirp('data/' + ext + 'LTC/')
