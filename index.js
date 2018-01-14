@@ -2,7 +2,6 @@
 const ccxt = require ('ccxt');
 const jsonfile = require('jsonfile');
 const exec = require('promised-exec');
-// const mkdirp = require('mkdirp');
 const fs = require('fs');
 
 const exchanges = [
