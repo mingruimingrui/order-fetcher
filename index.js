@@ -1,67 +1,83 @@
 // require('daemon')();
-const fetchUrl = require('fetch').fetchUrl;
+const ccxt = require ('ccxt');
 const jsonfile = require('jsonfile');
 const exec = require('promised-exec');
-const mkdirp = require('mkdirp');
+// const mkdirp = require('mkdirp');
 const fs = require('fs');
 
-const order_url = [
-  'https://api.gdax.com/products/BTC-USD/book?level=2',
-  'https://api.gdax.com/products/LTC-USD/book?level=2',
-  'https://api.gdax.com/products/ETH-USD/book?level=2'
+const exchanges = [
+  'poloniex',  // US
+  'bittrex',   // US
+  'huobipro',  // CN
+  'binance',   // JP
+  'hitbtc'     // UK
+].map(x => new ccxt[x]());
+
+const pairs = [
+  'BTC/USDT',  // USD as a basis for value
+  'XRP/BTC',   // the crypoto made for banks
+  'DASH/BTC'   // fastest crypto for transaciton
 ];
 
-const log_file = 'logs/log.txt'
-const file_name = ['BTC', 'LTC', 'ETH'];
+const pairs_disp_name = pairs.map(pair =>
+  pair.replace(/BTC/g,'').replace('/','')
+);
 
-function myFun(ext, i) {
-
-  try{
-    fetchUrl(order_url[i], (err, res, data) => {
-      const JSON_object = JSON.parse(data.toString());
-      const file = 'data/' + ext + '-' + file_name[i] + '.json';
-      jsonfile.writeFile(file, JSON_object);
-    });
-  } catch(e) {
-    fs.appendFile(log_file, 'failed to save at ' + ext + '\n');
-  }
-
-    // exec('gsutil cp ' + file + ' gs://mingrui-bucket/bitcoin-book/' + file).then((res) => {
-    //   console.log(res)
-    //   exec('rm ' + file)
-    // })
-    // exec('gsutil cp ' + file + ' gs://mingrui-bucket/bitcoin-book/' + file)
-    // exec('rm ' + file)
-
-}
-
-let cur_time = Date.now();
-cur_time = cur_time - cur_time % 1000;
-let today = new Date(cur_time);
-let cur_date = today.getUTCDate();
-let ext = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate() + '/';
-mkdirp('data/' + ext + 'BTC/')
-mkdirp('data/' + ext + 'LTC/')
-mkdirp('data/' + ext + 'ETH/')
-
-for (let i=0; i<3; i++) {
-  myFun(file_name[i] + '/' + ext + cur_time, i);
-}
+const INTERVAL = 10000;
+const ERROR_FILE = 'logs/error.txt';
 
 setInterval(() => {
-  cur_time = Date.now();
-  cur_time = cur_time - cur_time % 1000;
-  today = new Date(cur_time);
-  if (today.getUTCDate() != cur_date) {
-    cur_date = today.getUTCDate()
-    
-    ext = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate() + '/';
-    mkdirp('data/' + ext + 'BTC/')
-    mkdirp('data/' + ext + 'LTC/')
-    mkdirp('data/' + ext + 'ETH/')
-  }
+  let curDate = new Date()
+  let timestamp = curDate.getTime();
+  timestamp = Math.floor(timestamp / INTERVAL) * INTERVAL;
 
-  for (let i=0; i<3; i++) {
-    myFun(ext + file_name[i] + '/' + cur_time, i);
-  }
-}, 3000)
+  let formattedDateString = curDate.toISOString().slice(0,10);
+  createFoldersIfMissing('data/' + formattedDateString);
+
+  exchanges.forEach(ex => {
+    pairs.forEach((pair, i) => {
+      let folder_name = 'data/' + formattedDateString + '/' + pairs_disp_name[i] + '/';
+      let file_name = folder_name + timestamp + '-' + pairs_disp_name[i] + '-' + ex.id + '.json';
+      fetchOrderSaveValue(ex, pair, file_name, timestamp);
+    });
+  });
+
+}, INTERVAL);
+
+const fetchOrderSaveValue = (ex, pair, file_name, timestamp) => {
+  ex.fetchOrderBook(pair)
+  .then(data => {
+    let dataToSave = {
+      pair, timestamp,
+      bids: data.bids.slice(0,50),
+      asks: data.asks.slice(0,50)
+    }
+
+    jsonfile.writeFile(file_name, dataToSave);
+  })
+  .catch(err => {
+    let msg = 'Failed to fetch ' + file_name + '\n';
+    fs.appendFile(ERROR_FILE, msg, err => err);
+  });
+
+};
+
+const createFoldersIfMissing = (root_folder_name) => {
+  // only create if files don't exist
+  if (fs.existsSync(root_folder_name)) return;
+
+  // create root folder
+  fs.mkdirSync(root_folder_name);
+
+  // create folder for each pair
+  pairs_disp_name.forEach(pair => {
+    fs.mkdirSync(root_folder_name + '/' + pair);
+  });
+
+};
+
+
+
+
+// exchanges[0].fetchL2OrderBook('XRP/BTC')
+// .then()
