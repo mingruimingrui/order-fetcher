@@ -13,7 +13,7 @@ data_path = 'data'
 dates = [d for d in os.listdir(data_path) if d != formatted_date]
 dates = [d for d in dates if d[0] != '.']
 
-for date in []:
+for date in dates:
     zip_filename = 'data-zip/' + date + '.zip'
     if not os.path.isfile(zip_filename):
         zipf = zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED)
