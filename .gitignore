@@ -2,4 +2,5 @@ API_KEYS.sh
 node_modules
 package-lock.json
 data/*
+data-zip/*
 logs/*
