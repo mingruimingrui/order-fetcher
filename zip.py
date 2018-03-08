@@ -14,7 +14,9 @@ dates = [d for d in os.listdir(data_path) if d != formatted_date]
 dates = [d for d in dates if d[0] != '.']
 
 for date in []:
-    zipf = zipfile.ZipFile('data-zip/' + date + '.zip', 'w', zipfile.ZIP_DEFLATED)
-    zipdir(os.path.join(data_path, date), '.', zipf)
-    zipf.close()
-    print('Successfully zipped', os.path.join(data_path, date))
+    zip_filename = 'data-zip/' + date + '.zip'
+    if not os.path.isfile(zip_filename):
+        zipf = zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED)
+        zipdir(os.path.join(data_path, date), '.', zipf)
+        zipf.close()
+        print('Successfully zipped', os.path.join(data_path, date))
