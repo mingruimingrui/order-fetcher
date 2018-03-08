@@ -1,8 +1,11 @@
-// require('daemon')();
+console.log('process running on port', process.pid);
+require('daemon')();
 const ccxt = require ('ccxt');
 const jsonfile = require('jsonfile');
 const exec = require('promised-exec');
 const fs = require('fs');
+
+fs.writeFile('logs/PORT.sh', process.pid, err => err);
 
 const exchanges = [
   'poloniex',  // US
