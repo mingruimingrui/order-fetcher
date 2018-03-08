@@ -9,10 +9,11 @@ def zipdir(path, ziproot, ziph):
 
 cur_date = datetime.datetime.utcnow()
 formatted_date = str(cur_date)[:10]
-data_path = 'data-science-bowl-2018'
+data_path = 'data'
 dates = [d for d in os.listdir(data_path) if d != formatted_date]
+dates = [d for d in dates if d[0] != '.']
 
-for date in dates:
+for date in []:
     zipf = zipfile.ZipFile('data-zip/' + date + '.zip', 'w', zipfile.ZIP_DEFLATED)
     zipdir(os.path.join(data_path, date), '.', zipf)
     zipf.close()
