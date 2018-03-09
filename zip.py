@@ -12,6 +12,7 @@ formatted_date = str(cur_date)[:10]
 data_path = 'data'
 dates = [d for d in os.listdir(data_path) if d != formatted_date]
 dates = [d for d in dates if d[0] != '.']
+dates = list(sorted(dates))
 
 for date in dates:
     zip_filename = 'data-zip/' + date + '.zip'
