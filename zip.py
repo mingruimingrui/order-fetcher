@@ -35,8 +35,7 @@ done_dates = list(sorted(done_dates))
 all_dates = list(sorted(set(dates + done_dates)))
 all_dates_dict = {d: False for d in all_dates}
 
-print(os.path.isfile(zip_progress_file))
-if os.path.isfile(zip_progress_file):
+if not os.path.isfile(zip_progress_file):
     # Take currently done dates to get all the dates,
     # then set the dates which are already done to be True
     # and save the dict
@@ -49,10 +48,12 @@ if os.path.isfile(zip_progress_file):
     all_dates_dict = OrderedDict(sorted(all_dates_dict.items()))
 
     writejson(all_dates_dict, zip_progress_file)
+    print('Created new zip progress file at {}'.format(zip_progress_file))
 
 else:
     with open(zip_progress_file) as json_file:
         json_data = json.load(json_file)
+        print('We already made the file')
         print(json_data)
 
 
