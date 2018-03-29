@@ -65,14 +65,18 @@ else:
 dates_to_complete = [k for k, v in all_dates_dict.items() if not v]
 dates_to_complete = list(sorted(dates_to_complete))
 
-print(all_dates_dict['2018-01-20'])
+for date in dates_to_complete:
+    zip_filename = 'data-zip/' + date + '.zip'
+    if not os.path.isfile(zip_filename):
+        print('Now zippping {}'.format(date))
 
-# for date in dates_to_complete:
-#     zip_filename = 'data-zip/' + date + '.zip'
-#     if not os.path.isfile(zip_filename):
-#         print('Now zippping {}'.format(date))
-#         zipf = zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED)
-#         zipdir(os.path.join(data_path, date), '.', zipf)
-#         zipf.close()
-#         all_dates_dict[date] =
-#         print('Successfully zipped', os.path.join(data_path, date))
+        if all_dates_dict[date]:
+            print('Woah this should not happen')
+            continue
+
+        zipf = zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED)
+        zipdir(os.path.join(data_path, date), '.', zipf)
+        zipf.close()
+
+        print('Successfully zipped', os.path.join(data_path, date))
+        all_dates_dict[date] = True
