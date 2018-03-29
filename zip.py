@@ -10,7 +10,7 @@ def zipdir(path, ziproot, ziph):
             ziph.write(os.path.join(root, file), os.path.join(root[(len(path) + 1):], file))
 
 def writejson(data, file):
-    with open(file) as json_file:
+    with open(file, 'w') as json_file:
         json.dump(data, json_file, indent=4)
 
 # paths
