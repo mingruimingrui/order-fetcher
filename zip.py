@@ -32,7 +32,7 @@ print('\nDone dates')
 print(done_dates)
 
 print('\nSet of dates')
-for k, v in od.items():
+for k, v in all_dates_dict.items():
     print(k, v)
 
 # for date in dates:
