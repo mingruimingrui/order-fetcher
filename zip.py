@@ -10,7 +10,7 @@ def zipdir(path, ziproot, ziph):
         for file in files:
             ziph.write(os.path.join(root, file), os.path.join(root[(len(path) + 1):], file))
 
-def update_zipping_status(all_dates_dict):
+# def update_zipping_status(all_dates_dict):
 
 
 # paths
