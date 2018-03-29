@@ -80,3 +80,4 @@ for date in dates_to_complete:
 
         print('Successfully zipped', os.path.join(data_path, date))
         all_dates_dict[date] = True
+        writejson(all_dates_dict, zip_progress_file)
