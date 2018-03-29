@@ -53,11 +53,17 @@ if not os.path.isfile(zip_progress_file):
 else:
     with open(zip_progress_file) as json_file:
         json_data = json.load(json_file)
-        print('We already made the file')
-        print(json_data)
         previous_done_dates = [k for k, v in json_data.items() if v]
-        print(previous_done_dates)
 
+    all_dates = list(sorted(set(dates + previous_done_dates)))
+    all_dates_dict = {d: d in previous_done_dates for d in all_dates}
+    all_dates_dict = OrderedDict(sorted(all_dates_dict.items()))
+
+    writejson(all_dates_dict, zip_progress_file)
+    print('Continuing according to new dates and progress in {}'.format(zip_progress_file))
+
+dates_to_complete = [k for k, v in all_dates_dict if not v]
+print(dates_to_complete)
 
 # for date in dates:
 #     zip_filename = 'data-zip/' + date + '.zip'
