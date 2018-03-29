@@ -35,12 +35,24 @@ done_dates = list(sorted(done_dates))
 all_dates = list(sorted(set(dates + done_dates)))
 all_dates_dict = {d: False for d in all_dates}
 
-# if os.path.isfile(zip_progress_file):
-#     with open(zip_progress_file, 'w') as json_file:
-#
-# else:
-#     with open(zip_progress_file) as json_file:
-#         previously_done_dates =
+if os.path.isfile(zip_progress_file):
+    # Take currently done dates to get all the dates,
+    # then set the dates which are already done to be True
+    # and save the dict
+    done_dates = [os.path.splitext(d)[0] for d in os.listdir(zip_path) if d!= formatted_date]
+    done_dates = [d for d in done_dates if d[0] != '.']
+    done_dates = list(sorted(done_dates))
+
+    all_dates = list(sorted(set(dates + done_dates)))
+    all_dates_dict = {d: d in done_dates for d in all_dates}
+    all_dates_dict = OrderedDict(sorted(all_dates_dict.items()))
+
+    writejson(all_dates_dict)
+
+else:
+    with open(zip_progress_file) as json_file:
+        json_data = json.load(json_file)
+        print(json_data)
 
 
 # for date in dates:
@@ -50,8 +62,6 @@ all_dates_dict = {d: False for d in all_dates}
 #         zipdir(os.path.join(data_path, date), '.', zipf)
 #         zipf.close()
 #         print('Successfully zipped', os.path.join(data_path, date))
-
-all_dates_dict = OrderedDict(sorted(all_dates_dict.items()))
 
 writejson(all_dates_dict, zip_progress_file)
 
