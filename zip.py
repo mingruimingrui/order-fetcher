@@ -23,6 +23,7 @@ done_dates = list(sorted(done_dates))
 
 all_dates = list(sorted(set(dates + done_dates)))
 all_dates_dict = {d: d in done_dates for d in all_dates}
+all_dates_dict =
 
 print('Dates')
 print(dates)
@@ -31,7 +32,8 @@ print('\nDone dates')
 print(done_dates)
 
 print('\nSet of dates')
-print(all_dates_dict)
+for k, v in od.items():
+    print(k, v)
 
 # for date in dates:
 #     zip_filename = 'data-zip/' + date + '.zip'
