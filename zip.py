@@ -35,6 +35,7 @@ done_dates = list(sorted(done_dates))
 all_dates = list(sorted(set(dates + done_dates)))
 all_dates_dict = {d: False for d in all_dates}
 
+print(os.path.isfile(zip_progress_file))
 if os.path.isfile(zip_progress_file):
     # Take currently done dates to get all the dates,
     # then set the dates which are already done to be True
