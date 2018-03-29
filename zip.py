@@ -1,39 +1,47 @@
 import os
 import json
+import simplejson
 import zipfile
 import datetime
+from collections import OrderedDict
 
 def zipdir(path, ziproot, ziph):
     for root, dirs, files in os.walk(path):
         for file in files:
             ziph.write(os.path.join(root, file), os.path.join(root[(len(path) + 1):], file))
 
+def update_zipping_status(all_dates_dict):
+
+
+# paths
+zip_progress_file = 'logs/zip-progress.json'
+data_path = 'data'
+zip_path = 'data-zip'
+
+# cur date
 cur_date = datetime.datetime.utcnow()
 formatted_date = str(cur_date)[:10]
 
-data_path = 'data'
+# unzipped date files
 dates = [d for d in os.listdir(data_path) if d != formatted_date]
 dates = [d for d in dates if d[0] != '.']
 dates = list(sorted(dates))
 
-zip_path = 'data-zip'
+# zipped date files
 done_dates = [os.path.splitext(d)[0] for d in os.listdir(zip_path) if d!= formatted_date]
 done_dates = [d for d in done_dates if d[0] != '.']
 done_dates = list(sorted(done_dates))
 
 all_dates = list(sorted(set(dates + done_dates)))
-all_dates_dict = {d: d in done_dates for d in all_dates}
-# all_dates_dict =
+all_dates_dict = {d: False for d in all_dates}
 
-print('Dates')
-print(dates)
+# if os.path.isfile(zip_progress_file):
+#     with open(zip_progress_file, 'w') as json_file:
+#
+# else:
+#     with open(zip_progress_file) as json_file:
+#         previously_done_dates =
 
-print('\nDone dates')
-print(done_dates)
-
-print('\nSet of dates')
-for k, v in all_dates_dict.items():
-    print(k, v)
 
 # for date in dates:
 #     zip_filename = 'data-zip/' + date + '.zip'
@@ -42,3 +50,9 @@ for k, v in all_dates_dict.items():
 #         zipdir(os.path.join(data_path, date), '.', zipf)
 #         zipf.close()
 #         print('Successfully zipped', os.path.join(data_path, date))
+
+all_dates_dict = OrderedDict(sorted(all_dates_dict.items()))
+
+print(all_dates)
+print()
+print(all_dates_dict)
