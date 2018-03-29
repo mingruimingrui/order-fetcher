@@ -9,8 +9,9 @@ def zipdir(path, ziproot, ziph):
         for file in files:
             ziph.write(os.path.join(root, file), os.path.join(root[(len(path) + 1):], file))
 
-# def update_zipping_status(all_dates_dict):
-
+def writejson(data, file):
+    with open(file) as json_file:
+        json.dump(data, json_file, indent=4)
 
 # paths
 zip_progress_file = 'logs/zip-progress.json'
@@ -51,6 +52,8 @@ all_dates_dict = {d: False for d in all_dates}
 #         print('Successfully zipped', os.path.join(data_path, date))
 
 all_dates_dict = OrderedDict(sorted(all_dates_dict.items()))
+
+writejson(all_dates_dict, zip_progress_file)
 
 print(all_dates)
 print()
