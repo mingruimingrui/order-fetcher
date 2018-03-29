@@ -63,12 +63,16 @@ else:
     print('Continuing according to new dates and progress in {}'.format(zip_progress_file))
 
 dates_to_complete = [k for k, v in all_dates_dict.items() if not v]
-print(dates_to_complete)
+dates_to_complete = list(sorted(dates_to_complete))
 
-# for date in dates:
+print(all_dates_dict['2018-01-20'])
+
+# for date in dates_to_complete:
 #     zip_filename = 'data-zip/' + date + '.zip'
 #     if not os.path.isfile(zip_filename):
+#         print('Now zippping {}'.format(date))
 #         zipf = zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED)
 #         zipdir(os.path.join(data_path, date), '.', zipf)
 #         zipf.close()
+#         all_dates_dict[date] =
 #         print('Successfully zipped', os.path.join(data_path, date))
