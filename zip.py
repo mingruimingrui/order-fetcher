@@ -1,6 +1,5 @@
 import os
 import json
-import simplejson
 import zipfile
 import datetime
 from collections import OrderedDict
