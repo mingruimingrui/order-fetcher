@@ -55,6 +55,8 @@ else:
         json_data = json.load(json_file)
         print('We already made the file')
         print(json_data)
+        previous_done_dates = [k for k, v in json_data.items() if v]
+        print(previous_done_dates)
 
 
 # for date in dates:
