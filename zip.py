@@ -47,7 +47,7 @@ if os.path.isfile(zip_progress_file):
     all_dates_dict = {d: d in done_dates for d in all_dates}
     all_dates_dict = OrderedDict(sorted(all_dates_dict.items()))
 
-    writejson(all_dates_dict)
+    writejson(all_dates_dict, zip_progress_file)
 
 else:
     with open(zip_progress_file) as json_file:
