@@ -17,8 +17,8 @@ dates = [d for d in dates if d[0] != '.']
 dates = list(sorted(dates))
 
 zip_path = 'data-zip'
-done_dates = [d for d in os.listdir(zip_path) if d!= formatted_date]
-done_dates = [d for d in dates if d[0] != '.']
+done_dates = [os.path.splitext(d)[0] for d in os.listdir(zip_path) if d!= formatted_date]
+done_dates = [d for d in done_dates if d[0] != '.']
 done_dates = list(sorted(dates))
 
 all_dates = list(sorted(set(dates + done_dates)))
