@@ -24,6 +24,8 @@ done_dates = list(sorted(dates))
 all_dates = list(sorted(set(dates + done_dates)))
 all_dates_dict = {d: d in done_dates for d in all_dates}
 
+print(all_dates_dict)
+
 # for date in dates:
 #     zip_filename = 'data-zip/' + date + '.zip'
 #     if not os.path.isfile(zip_filename):
