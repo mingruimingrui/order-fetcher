@@ -62,9 +62,3 @@ else:
 #         zipdir(os.path.join(data_path, date), '.', zipf)
 #         zipf.close()
 #         print('Successfully zipped', os.path.join(data_path, date))
-
-writejson(all_dates_dict, zip_progress_file)
-
-print(all_dates)
-print()
-print(all_dates_dict)
