@@ -62,12 +62,8 @@ else:
     writejson(all_dates_dict, zip_progress_file)
     print('Continuing according to new dates and progress in {}'.format(zip_progress_file))
 
-print(all_dates_dict)
-
 dates_to_complete = [k for k, v in all_dates_dict.items() if not v]
 dates_to_complete = list(sorted(dates_to_complete))
-
-print(dates_to_complete)
 
 for date in dates_to_complete:
     print('Now zippping {}'.format(date))
