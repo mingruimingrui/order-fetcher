@@ -70,18 +70,17 @@ dates_to_complete = list(sorted(dates_to_complete))
 print(dates_to_complete)
 
 for date in dates_to_complete:
+    print('Now zippping {}'.format(date))
+
+    if all_dates_dict[date]:
+        print('Woah this should not happen')
+        continue
+
     zip_filename = 'data-zip/' + date + '.zip'
-    if not os.path.isfile(zip_filename):
-        print('Now zippping {}'.format(date))
+    zipf = zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED)
+    zipdir(os.path.join(data_path, date), '.', zipf)
+    zipf.close()
 
-        if all_dates_dict[date]:
-            print('Woah this should not happen')
-            continue
-
-        zipf = zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED)
-        zipdir(os.path.join(data_path, date), '.', zipf)
-        zipf.close()
-
-        print('Successfully zipped', os.path.join(data_path, date))
-        all_dates_dict[date] = True
-        writejson(all_dates_dict, zip_progress_file)
+    print('Successfully zipped', os.path.join(data_path, date))
+    all_dates_dict[date] = True
+    writejson(all_dates_dict, zip_progress_file)
