@@ -1,6 +1,6 @@
-// Warning daemon will make service run in background
-// suggested to turn off during debugging
-require('daemon')();
+// Old script kept for reference
+
+// require('daemon')();
 console.log('process running on port', process.pid);
 const ccxt = require ('ccxt');
 const jsonfile = require('jsonfile');
@@ -41,7 +41,7 @@ setInterval(() => {
   exchanges.forEach(ex => {
     pairs.forEach((pair, i) => {
       let folder_name = 'data/' + formattedDateString + '/' + pairs_disp_name[i] + '/';
-      let file_name = folder_name + formattedDateString + '-' + pairs_disp_name[i] + '-' + ex.id + '.txt';
+      let file_name = folder_name + timestamp + '-' + pairs_disp_name[i] + '-' + ex.id + '.json';
       fetchOrderSaveValue(ex, pair, file_name, timestamp);
     });
   });
@@ -57,8 +57,7 @@ const fetchOrderSaveValue = (ex, pair, file_name, timestamp) => {
       asks: data.asks.slice(0,50)
     }
 
-    fs.appendFile(file_name, JSON.stringify(dataToSave) + '\n', err => err);
-    // jsonfile.writeFile(file_name, dataToSave);
+    jsonfile.writeFile(file_name, dataToSave);
   })
   .catch(err => {
     let msg = 'Failed to fetch ' + file_name + '\n';
@@ -80,7 +79,6 @@ const createFoldersIfMissing = (root_folder_name) => {
   });
 
 };
-
 
 
 
